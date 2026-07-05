@@ -38,6 +38,74 @@
       --white: #EFF4FB;
       --glow-c: rgba(201, 123, 58, 0.18);
       --glow-g: rgba(212, 168, 71, 0.12);
+      --nav-bg: linear-gradient(to bottom, rgba(5, 10, 20, 0.95), rgba(5, 10, 20, 0.2));
+      --mobile-nav-bg: rgba(8, 15, 30, 0.98);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    body.light-theme {
+      --void: #F5F7FA;
+      --abyss: #FFFFFF;
+      --navy: #E4E8F0;
+      --copper: #B86B2F;
+      --copper-l: #9E5820;
+      --gold: #B3861B;
+      --steel: #5A738E;
+      --ghost: #384A62;
+      --white: #0F172A;
+      --glow-c: rgba(184, 107, 47, 0.1);
+      --glow-g: rgba(179, 134, 27, 0.06);
+      --nav-bg: linear-gradient(to bottom, rgba(245, 247, 250, 0.95), rgba(245, 247, 250, 0.2));
+      --mobile-nav-bg: rgba(255, 255, 255, 0.98);
+      --shadow-color: rgba(100, 116, 139, 0.12);
+    }
+
+    body.light-theme .skill-card,
+    body.light-theme .exp-item,
+    body.light-theme .project-card,
+    body.light-theme .edu-card,
+    body.light-theme .ach-card,
+    body.light-theme .contact-card {
+      box-shadow: 0 10px 30px rgba(100, 116, 139, 0.06), 0 1px 3px rgba(100, 116, 139, 0.02);
+      border-color: rgba(201, 123, 58, 0.18);
+    }
+
+    /* ─── THEME TOGGLE ─── */
+    #theme-toggle {
+      background: transparent;
+      border: 1px solid rgba(201, 123, 58, 0.2);
+      color: var(--copper-l);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-left: 20px;
+      z-index: 102;
+    }
+
+    #theme-toggle:hover {
+      background: rgba(201, 123, 58, 0.12);
+      border-color: var(--copper);
+      box-shadow: 0 0 12px rgba(201, 123, 58, 0.25);
+      color: var(--white);
+    }
+
+    .theme-icon {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #theme-toggle:hover .theme-icon {
+      transform: rotate(20deg);
+    }
+
+    .theme-icon.hide {
+      display: none;
     }
 
     html {
@@ -86,7 +154,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px 60px;
-      background: linear-gradient(to bottom, rgba(5, 10, 20, 0.95), rgba(5, 10, 20, 0.2));
+      background: var(--nav-bg);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(201, 123, 58, 0.08);
@@ -191,10 +259,10 @@
 
     /* particle canvas sits behind content */
     #particle-canvas {
-      position: absolute;
+      position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
     }
 
     .hero-text {
@@ -209,17 +277,16 @@
       color: var(--copper);
       text-transform: uppercase;
       margin-bottom: 24px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 12px;
+      border-bottom: 1px solid var(--copper);
+      padding-bottom: 6px;
+      width: fit-content;
     }
 
     .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 32px;
-      height: 1px;
-      background: var(--copper);
+      display: none;
     }
 
     .hero-name {
@@ -725,7 +792,7 @@
 
     /* ─── EDUCATION & CERTS ─── */
     #education {
-      background: var(--void);
+      background: transparent;
     }
 
     .edu-grid {
@@ -823,7 +890,7 @@
 
     /* ─── ACHIEVEMENTS ─── */
     #achievements {
-      background: var(--abyss);
+      background: transparent;
     }
 
     .ach-grid {
@@ -867,7 +934,7 @@
 
     /* ─── CONTACT ─── */
     #contact {
-      background: var(--void);
+      background: transparent;
       text-align: center;
     }
 
@@ -994,6 +1061,11 @@
         padding: 18px 24px;
       }
 
+      #theme-toggle {
+        margin-left: auto;
+        margin-right: 15px;
+      }
+
       .nav-toggle {
         display: flex;
       }
@@ -1004,7 +1076,7 @@
         right: -100%;
         width: 260px;
         height: 100vh;
-        background: rgba(8, 15, 30, 0.98);
+        background: var(--mobile-nav-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-left: 1px solid rgba(201, 123, 58, 0.15);
@@ -1014,7 +1086,7 @@
         gap: 36px;
         padding: 80px 40px;
         z-index: 101;
-        box-shadow: -10px 0 30px rgba(5, 10, 20, 0.8);
+        box-shadow: -10px 0 30px var(--shadow-color);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
@@ -1206,6 +1278,13 @@
 </head>
 
 <body>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-theme');
+    }
+  </script>
+
+  <canvas id="particle-canvas"></canvas>
 
   <div id="scroll-progress"></div>
 
@@ -1220,6 +1299,25 @@
       <li><a href="#contact">Contact</a></li>
       <li><a href="Aditya_Swain_Resume.pdf" target="_blank" class="nav-resume-btn">Resume</a></li>
     </ul>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" aria-label="Toggle Theme">
+      <svg id="theme-toggle-dark-icon" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      <svg id="theme-toggle-light-icon" class="theme-icon hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+
     <div class="nav-toggle" id="nav-toggle">
       <span></span>
       <span></span>
@@ -1229,7 +1327,6 @@
 
   <!-- ═══ HERO ═══ -->
   <section id="hero">
-    <canvas id="particle-canvas"></canvas>
 
     <div class="hero-text">
       <div class="hero-eyebrow">AI/ML Engineer · Bhubaneswar, India</div>
@@ -1807,8 +1904,8 @@
     let particles = [];
 
     function resize() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
 
     resize();
@@ -1819,13 +1916,13 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.3;
+        this.size = Math.random() * 2.2 + 0.6;
         this.speedX = (Math.random() - 0.5) * 0.25;
         this.speedY = (Math.random() - 0.5) * 0.25;
-        this.opacity = Math.random() * 0.4 + 0.05;
+        this.opacity = Math.random() * 0.5 + 0.1;
         this.life = 0;
         this.maxLife = Math.random() * 300 + 200;
-        this.gold = Math.random() > 0.7;
+        this.gold = Math.random() > 0.6;
       }
       update() {
         this.x += this.speedX;
@@ -1836,8 +1933,14 @@
       draw() {
         ctx.save();
         const fade = Math.sin((this.life / this.maxLife) * Math.PI);
-        ctx.globalAlpha = this.opacity * fade;
-        ctx.fillStyle = this.gold ? '#D4A847' : '#C97B3A';
+        const isLight = document.body.classList.contains('light-theme');
+        ctx.globalAlpha = isLight ? (this.opacity * fade * 1.6) : (this.opacity * fade);
+        const color = this.gold 
+          ? (isLight ? '#B3861B' : '#D4A847') 
+          : (isLight ? '#B86B2F' : '#C97B3A');
+        ctx.fillStyle = color;
+        ctx.shadowBlur = isLight ? 4 : 8;
+        ctx.shadowColor = color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -1845,7 +1948,7 @@
       }
     }
 
-    for (let i = 0; i < 80; i++) particles.push(new Particle());
+    for (let i = 0; i < 220; i++) particles.push(new Particle());
 
     function animParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1970,6 +2073,36 @@
           }
         });
       });
+    });
+
+    /* ─── THEME TOGGLE SCRIPT ─── */
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    function updateThemeIcons() {
+      if (document.body.classList.contains('light-theme')) {
+        darkIcon.classList.add('hide');
+        lightIcon.classList.remove('hide');
+      } else {
+        darkIcon.classList.remove('hide');
+        lightIcon.classList.add('hide');
+      }
+    }
+
+    // Initialize icons
+    updateThemeIcons();
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      updateThemeIcons();
+
+      // Save preference
+      if (document.body.classList.contains('light-theme')) {
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
     });
   </script>
 
